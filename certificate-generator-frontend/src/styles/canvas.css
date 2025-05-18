@@ -1,0 +1,137 @@
+.canvas-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  background-color: #e0e0e0;
+  min-height: calc(100vh - 60px);
+  overflow: auto;
+}
+
+.canvas {
+  background-color: white;
+  position: relative;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+
+.canvas-element {
+  position: absolute;
+  cursor: move;
+  user-select: none;
+}
+
+.canvas-element.selected {
+  outline: 2px solid var(--primary-color);
+}
+
+.resize-handle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.resize-handle.top-left {
+  top: -4px;
+  left: -4px;
+  cursor: nw-resize;
+}
+
+.resize-handle.top-right {
+  top: -4px;
+  right: -4px;
+  cursor: ne-resize;
+}
+
+.resize-handle.bottom-left {
+  bottom: -4px;
+  left: -4px;
+  cursor: sw-resize;
+}
+
+.resize-handle.bottom-right {
+  bottom: -4px;
+  right: -4px;
+  cursor: se-resize;
+}
+
+.text-box {
+  padding: 8px;
+  border: 1px dashed transparent;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
+
+.text-box:hover {
+  border-color: var(--border-color);
+}
+
+.text-box.editing {
+  border-color: var(--primary-color);
+}
+
+.text-box.empty:not(.editing) {
+  border-color: #ccc;
+  border-style: dashed;
+}
+
+.text-content {
+  width: 100%;
+  height: 100%;
+  min-height: 1em;
+  word-wrap: break-word;
+}
+
+.text-content:focus {
+  outline: none;
+}
+
+/* Placeholder styles */
+.placeholder-text {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  color: #999;
+  font-style: italic;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+/* Ensure proper text alignment for contentEditable */
+.text-box[style*="text-align: center"] .text-content {
+  text-align: center;
+}
+
+.text-box[style*="text-align: right"] .text-content {
+  text-align: right;
+}
+
+.text-box[style*="text-align: left"] .text-content,
+.text-box:not([style*="text-align"]) .text-content {
+  text-align: left;
+}
+
+.image-element img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Cursor positioning for different alignments */
+.text-box[style*="text-align: center"] .text-content:focus {
+  cursor: text;
+}
+
+.text-box[style*="text-align: right"] .text-content:focus {
+  cursor: text;
+}
+
+.text-box[style*="text-align: left"] .text-content:focus,
+.text-box:not([style*="text-align"]) .text-content:focus {
+  cursor: text;
+}
