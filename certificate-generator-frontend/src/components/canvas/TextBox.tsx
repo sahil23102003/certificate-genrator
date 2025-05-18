@@ -46,23 +46,13 @@ const TextBox: React.FC<TextBoxProps> = ({ element, isSelected }) => {
     setTimeout(() => {
       if (textBoxRef.current) {
         textBoxRef.current.focus();
-
-        // If empty, clear the placeholder and set cursor at the beginning
-        // if (isEmpty) {
-        //   textBoxRef.current.textContent = '';
-        // }
-
-        // // Set cursor position at the end for all alignments
-        // const range = document.createRange();
-        // const selection = window.getSelection();
-
-        // if (selection && textBoxRef.current.firstChild) {
-        //   // Always put cursor at the end
-        //   range.setStart(textBoxRef.current.firstChild, textBoxRef.current.textContent?.length || 0);
-        //   range.collapse(true);
-        //   selection.removeAllRanges();
-        //   selection.addRange(range);
-        // }
+        // Move cursor to end of text
+        const range = document.createRange();
+        const selection = window.getSelection();
+        range.selectNodeContents(textBoxRef.current);
+        range.collapse(false); // false means collapse to end
+        selection?.removeAllRanges();
+        selection?.addRange(range);
       }
     }, 10);
   };
@@ -70,8 +60,6 @@ const TextBox: React.FC<TextBoxProps> = ({ element, isSelected }) => {
   const handleBlur = () => {
     setEditing(false);
 
-    // If the content becomes empty after editing, we keep it empty
-    // The placeholder will be shown by CSS
     if (textBoxRef.current) {
       const content = textBoxRef.current.textContent || '';
       dispatch(updateElement({
@@ -86,27 +74,19 @@ const TextBox: React.FC<TextBoxProps> = ({ element, isSelected }) => {
     }
   };
 
-  const handleTextChange = (e: React.ChangeEvent<HTMLDivElement>) => {
-    // const content = e.target.textContent || '';
-    // dispatch(updateElement({
-    //   id: element.id,
-    //   changes: {
-    //     properties: {
-    //       ...element.properties,
-    //       text: content
-    //     }
-    //   }
-    // }));
-  };
-
-  const handleFocus = () => {
-    // Clear placeholder when focusing
-  if (
-    textBoxRef.current &&
-    textBoxRef.current.textContent === 'Click to edit'
-  ) {
-    textBoxRef.current.textContent = '';
-  }
+  const handleTextChange = () => {
+    if (textBoxRef.current) {
+      const content = textBoxRef.current.textContent || '';
+      dispatch(updateElement({
+        id: element.id,
+        changes: {
+          properties: {
+            ...element.properties,
+            text: content
+          }
+        }
+      }));
+    }
   };
 
   useEffect(() => {
@@ -182,16 +162,15 @@ const TextBox: React.FC<TextBoxProps> = ({ element, isSelected }) => {
         suppressContentEditableWarning={true}
         onBlur={handleBlur}
         onInput={handleTextChange}
-        // onFocus={handleFocus}
         style={{
           width: '100%',
           height: '100%',
           outline: 'none',
           cursor: editing ? 'text' : 'inherit',
         }}
+        dangerouslySetInnerHTML={editing ? undefined : { __html: textBoxProps.text || '' }}
       >
-        {/* {isEmpty && !editing ? '' : textBoxProps.text} */}
-        {!editing && textBoxProps.text}
+        {editing ? textBoxProps.text : null}
       </div>
 
       {/* Placeholder text */}
