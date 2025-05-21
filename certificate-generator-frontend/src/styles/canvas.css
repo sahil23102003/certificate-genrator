@@ -58,7 +58,7 @@
 }
 
 .text-box {
-  padding: 8px;
+  padding: 0px;
   border: 1px dashed transparent;
   overflow: hidden;
   position: relative;
@@ -80,10 +80,23 @@
 }
 
 .text-content {
-  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  line-height: 1.2;              /* Match your PDF/canvas line height */
+  font-size: 16px;               /* Set dynamically if needed */
+  font-family: Arial, sans-serif;/* Set dynamically if needed */
+  font-weight: normal;           /* Set dynamically if needed */
+  text-align: left;              /* Set dynamically if needed */
   height: 100%;
+  width: 100%;
+  vertical-align: top;
+  outline: none;
   min-height: 1em;
-  word-wrap: break-word;
+  background: transparent;
+  border: none;
+  white-space: pre-wrap;         /* Preserve line breaks and spaces */
+  overflow-wrap: break-word;     /* Break long words */
 }
 
 .text-content:focus {
@@ -134,4 +147,21 @@
 .text-box[style*="text-align: left"] .text-content:focus,
 .text-box:not([style*="text-align"]) .text-content:focus {
   cursor: text;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  min-width: 300px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.2);
 }

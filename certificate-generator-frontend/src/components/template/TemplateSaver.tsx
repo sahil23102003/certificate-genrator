@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../../store/store';
-import { saveTemplate as saveTemplateAction } from '../../feautres/template/templateSlice';
+import { saveTemplate, saveTemplate as saveTemplateAction, setCurrentTemplate } from '../../feautres/template/templateSlice';
 import { saveTemplate as saveTemplateAPI } from '../../feautres/template/templateAPI';
 
 const TemplateSaver: React.FC = () => {
@@ -19,17 +19,19 @@ const TemplateSaver: React.FC = () => {
     setSaving(true);
     
     try {
+      console.log("Template before saving:", currentTemplate);
       // Update template name and save to Redux
       const updatedTemplate = {
         ...currentTemplate,
         name: templateName,
       };
-      
-      dispatch(saveTemplateAction());
+      dispatch(setCurrentTemplate(updatedTemplate));
+      // dispatch(saveTemplateAction());
+     dispatch(saveTemplate());
       
       // Save to backend
       await saveTemplateAPI(updatedTemplate);
-      
+      console.log("Template after saving:", updatedTemplate);
       alert('Template saved successfully!');
       setTemplateName('');
     } catch (error) {

@@ -11,16 +11,27 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
+    "@types/papaparse": "^5.3.16",
     "axios": "^1.9.0",
+    "dom-to-image": "^2.6.0",
     "html-to-image": "^1.11.13",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.1",
+    "konva": "^9.3.20",
+    "papaparse": "^5.5.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-dropzone": "^14.3.8",
+    "react-konva": "^19.0.3",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.0",
-    "uuid": "^11.1.0"
+    "use-image": "^1.1.2",
+    "uuid": "^11.1.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
+    "@types/dom-to-image": "^2.6.7",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@types/uuid": "^10.0.0",

@@ -8,8 +8,9 @@ function App() {
     <Router>
       <div className="app">
         <Routes>
-          {/* <Route path="/" element={<HomePage />} /> */}
           <Route path="/" element={<TemplateDesignerPage />} />
+          <Route path="/designer" element={<TemplateDesignerPage />} />
+
         </Routes>
       </div>
     </Router>

@@ -47,12 +47,12 @@ const TextBox: React.FC<TextBoxProps> = ({ element, isSelected }) => {
       if (textBoxRef.current) {
         textBoxRef.current.focus();
         // Move cursor to end of text
-        const range = document.createRange();
-        const selection = window.getSelection();
-        range.selectNodeContents(textBoxRef.current);
-        range.collapse(false); // false means collapse to end
-        selection?.removeAllRanges();
-        selection?.addRange(range);
+        // const range = document.createRange();
+        // const selection = window.getSelection();
+        // range.selectNodeContents(textBoxRef.current);
+        // range.collapse(false); // false means collapse to end
+        // selection?.removeAllRanges();
+        // selection?.addRange(range);
       }
     }, 10);
   };
@@ -61,33 +61,24 @@ const TextBox: React.FC<TextBoxProps> = ({ element, isSelected }) => {
     setEditing(false);
 
     if (textBoxRef.current) {
-      const content = textBoxRef.current.textContent || '';
+
       dispatch(updateElement({
         id: element.id,
         changes: {
           properties: {
             ...element.properties,
-            text: content
+            text: textBoxRef.current.innerHTML
           }
         }
       }));
     }
   };
 
-  const handleTextChange = () => {
-    if (textBoxRef.current) {
-      const content = textBoxRef.current.textContent || '';
-      dispatch(updateElement({
-        id: element.id,
-        changes: {
-          properties: {
-            ...element.properties,
-            text: content
-          }
-        }
-      }));
-    }
-  };
+useEffect(() => {
+  if (editing && textBoxRef.current) {
+    textBoxRef.current.innerHTML = textBoxProps.text || '';
+  }
+}, [editing, textBoxProps.text]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -138,6 +129,7 @@ const TextBox: React.FC<TextBoxProps> = ({ element, isSelected }) => {
 
   return (
     <div
+      id={`textbox-${element.id}`}
       className={`canvas-element text-box ${isSelected ? 'selected' : ''} ${editing ? 'editing' : ''} ${isEmpty ? 'empty' : ''}`}
       style={{
         left: `${element.x}px`,
@@ -161,16 +153,14 @@ const TextBox: React.FC<TextBoxProps> = ({ element, isSelected }) => {
         contentEditable={editing}
         suppressContentEditableWarning={true}
         onBlur={handleBlur}
-        onInput={handleTextChange}
         style={{
           width: '100%',
           height: '100%',
           outline: 'none',
           cursor: editing ? 'text' : 'inherit',
         }}
-        dangerouslySetInnerHTML={editing ? undefined : { __html: textBoxProps.text || '' }}
       >
-        {editing ? textBoxProps.text : null}
+        {!editing && (textBoxProps.text || '')}
       </div>
 
       {/* Placeholder text */}

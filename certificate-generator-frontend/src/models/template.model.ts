@@ -19,19 +19,19 @@ export interface TemplateElement {
 }
 
 export interface ImageProperties {
-    src : string;
-    opacity : number;
+    src? : string;
+    opacity? : number;
 }
 
 export interface TextProperties {
-    text : string;
-    fontSize : number;
-    fontFamily : string;
-    fontWeight : string;
-    color : string;
-    backgroundColor : string;
-    alignment : 'left' | 'center' | 'right';
+    text? : string;
+    fontSize? : number;
+    fontFamily? : string;
+    fontWeight? : string;
+    color? : string;
+    backgroundColor? : string;
+    alignment? : string;
 }
 
-export const A4_HEIGHT = 794;
-export const A4_WIDTH = 1123;
+export const A4_HEIGHT = 1123;
+export const A4_WIDTH = 794;

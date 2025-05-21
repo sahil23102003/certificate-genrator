@@ -38,19 +38,21 @@ const Canvas: React.FC = () => {
   return (
     <div className="canvas-container">
       <div
+        id="designer-canvas" // <-- Add this line
         ref={canvasRef}
         className="canvas"
         style={{
-          width: `${A4_WIDTH * scale}px`,
-          height: `${A4_HEIGHT * scale}px`,
-          transform: `scale(${scale})`,
-          transformOrigin: 'top center',
+          width: `${A4_WIDTH}px`,
+          height: `${A4_HEIGHT}px`,
+          // Do NOT multiply by scale here!
+          // Only use transform: scale for preview, and remove it for export
         }}
         onClick={handleCanvasClick}
       >
+        
         {currentTemplate.elements.map((element) => {
           const isSelected = element.id === selectedElementId;
-          
+          console.log("Rendering template elements:", currentTemplate.elements);
           if (element.type === 'text') {
             return (
               <TextBox
@@ -74,5 +76,14 @@ const Canvas: React.FC = () => {
     </div>
   );
 };
+
+export function removeCanvasScaleTemporarily(callback: () => Promise<void> | void) {
+  const canvas = document.getElementById('designer-canvas');
+  if (!canvas) return;
+  const prevTransform = canvas.style.transform;
+  canvas.style.transform = 'none';
+  callback();
+  canvas.style.transform = prevTransform;
+}
 
 export default Canvas;
